@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author Lex
+ *
+ */
+module JavaGame {
+}
