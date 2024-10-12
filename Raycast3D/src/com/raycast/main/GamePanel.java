@@ -8,27 +8,18 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.raycast.entity.Player;
+import com.raycast.map.MapLoader;
 
 public class GamePanel extends JPanel implements Runnable {
+	
+	MapLoader mapLoad = new MapLoader();
 
 	final int originalTileSize = 32;
 	final int scale = 2;
 
 	public final int tileSize = originalTileSize * scale;
-	public final int SCREEN_WIDTH = 1024;
-	public final int SCREEN_HEIGHT = 512;
-
-	public final int mapX = 8, mapY = 8;
-	public int map[] = { 
-			1, 1, 1, 1, 1, 1, 1, 1,
-			1, 0, 1, 0, 0, 0, 0, 1, 
-			1, 0, 1, 0, 0, 0, 0, 1, 
-			1, 0, 1, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 0, 0, 0, 0, 1, 0, 1, 
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 1, 1, 1, 1, 1, 1, 1 
-		};
+	public final int SCREEN_WIDTH = 1000;
+	public final int SCREEN_HEIGHT = 1000;
 
 	int FPS = 60;
 	public long drawCount;
@@ -107,11 +98,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
+		/*
 		int x, y, xo, yo;
-		for (y = 0; y < mapY; y++) {
-			for (x = 0; x < mapX; x++) {
-				if(map[y*mapX+x] >= 1) {
+		for (y = 0; y < mapLoad.mapY; y++) {
+			for (x = 0; x < mapLoad.mapX; x++) {
+				if(mapLoad.map[y*mapLoad.mapX+x] >= 1) {
 					g.setColor(Color.white);
 				}else {
 					g.setColor(Color.black);
@@ -120,7 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
 				g.fillRect(xo, yo, tileSize-1, tileSize-1);
 			}
 		}
-
+		*/
 		player.draw(g2);
 
 		g2.dispose();

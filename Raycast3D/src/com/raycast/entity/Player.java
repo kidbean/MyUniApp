@@ -6,11 +6,13 @@ import java.awt.Graphics2D;
 
 import com.raycast.main.GamePanel;
 import com.raycast.main.KeyHandler;
+import com.raycast.map.MapLoader;
 
 public class Player{
 	
 	KeyHandler kh;
 	GamePanel gp;
+	MapLoader mapLoad = new MapLoader();
 	
 	static double pi = 3.1415926535;
 	static double p2 = pi/2;
@@ -22,17 +24,8 @@ public class Player{
 	public static double pdx, pdy, pa;
 	public String direction;
 	public int playerSize = 8;
-	public final int mapX = 8, mapY = 8;
-	public int map[] = { 
-			1, 1, 1, 1, 1, 1, 1, 1,
-			1, 0, 1, 0, 0, 0, 0, 1, 
-			1, 0, 1, 0, 0, 0, 0, 1, 
-			1, 0, 1, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 0, 0, 0, 0, 1, 0, 1, 
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 1, 1, 1, 1, 1, 1, 1 
-		};
+	
+	public int lineXScale = 17;
 	
 	public Player(GamePanel gp, KeyHandler kh) {
 		super();
@@ -74,6 +67,7 @@ public class Player{
 	public void draw(Graphics2D g2) {
 		
 		//Draw Rays for player
+		
 		int r, mx, my, mp, dof;
 		double rx = 0, ry = 0, ra, xo = 0, yo = 0, distT = 0;
 		ra = pa - dr*30;
@@ -83,11 +77,10 @@ public class Player{
 		if(ra > 2*pi) {
 			ra -= 2*pi;
 		}
+		
 		for(r = 0; r < 60; r++) {
 			//Check horizontal lines
-			
-
-			
+						
 			double disH = 1000000, hx = px, hy = py;
 			dof = 0;
 			double aTan = -1/Math.tan(ra);
@@ -107,8 +100,8 @@ public class Player{
 			while(dof < 8) {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
-				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] == 1) {
+				mp = my*mapLoad.mapX+mx;
+				if(mp > 0 && mp<mapLoad.mapX*mapLoad.mapY && mapLoad.map[mp] == 1) {
 					hx = rx;
 					hy = ry;
 					disH = dist(px, py, hx, hy, ra);
@@ -140,8 +133,8 @@ public class Player{
 			while(dof < 8) {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
-				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] == 1) {
+				mp = my*mapLoad.mapX+mx;
+				if(mp > 0 && mp<mapLoad.mapX*mapLoad.mapY && mapLoad.map[mp] == 1) {
 					vx = rx;
 					vy = ry;
 					disV = dist(px, py, vx, vy, ra);
@@ -168,8 +161,8 @@ public class Player{
 			}
 			
 			//g2.setColor(Color.red);
-			 g2.setStroke(new BasicStroke(3));
-			 g2.drawLine(px+4, py+4, (int)rx, (int)ry);
+			 //g2.setStroke(new BasicStroke(3));
+			 //g2.drawLine(px+4, py+4, (int)rx, (int)ry);
 			
 			
 			//Draw 3D Walls
@@ -181,14 +174,14 @@ public class Player{
 				ca -= 2*pi;
 			}
 			distT = distT*Math.cos(ca);
-			float lineH = (float) ((64*320)/distT);
-			if(lineH > 320) {
-				lineH = 320;
+			float lineH = (float) ((64*640)/distT);
+			if(lineH > 640) {
+				lineH = 640;
 			}
-			float lineO = 160-lineH/2;
-			g2.setStroke(new BasicStroke(8));
+			float lineO = 300-lineH/2;
+			g2.setStroke(new BasicStroke(20));
 			
-			g2.drawLine((int)r*8+530, (int)lineO, (int)r*8+530, (int)lineH + (int)lineO);
+			g2.drawLine((int)r*lineXScale, (int)lineO, (int)r*lineXScale, (int)lineH + (int)lineO);
 			
 			ra += dr;
 			if(ra < 0) {
@@ -201,8 +194,8 @@ public class Player{
 
 		
 		//Draw Player and Line
-		g2.setColor(Color.green);
-		g2.fillRect(px, py, playerSize, playerSize);
+		//g2.setColor(Color.green);
+		//g2.fillRect(px, py, playerSize, playerSize);
 		//g2.drawLine(px+4, py+4, (int)px+(int)pdx*5, (int)py+(int)pdy*5);
 
 		
