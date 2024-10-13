@@ -18,8 +18,8 @@ public class GamePanel extends JPanel implements Runnable {
 	final int scale = 2;
 
 	public final int tileSize = originalTileSize * scale;
-	public final int SCREEN_WIDTH = 1000;
-	public final int SCREEN_HEIGHT = 1000;
+	public final int SCREEN_WIDTH = 1024;
+	public final int SCREEN_HEIGHT = 512;
 
 	int FPS = 60;
 	public long drawCount;
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-		this.setBackground(new Color(0, 0, 0));
+		this.setBackground(new Color(100, 100, 100));
 		this.setDoubleBuffered(true);
 
 		this.addKeyListener(kh);
@@ -98,11 +98,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		/*
 		int x, y, xo, yo;
 		for (y = 0; y < mapLoad.mapY; y++) {
 			for (x = 0; x < mapLoad.mapX; x++) {
-				if(mapLoad.map[y*mapLoad.mapX+x] >= 1) {
+				if(mapLoad.map[y*mapLoad.mapX+x] >= 1) { 
 					g.setColor(Color.white);
 				}else {
 					g.setColor(Color.black);
@@ -111,7 +110,6 @@ public class GamePanel extends JPanel implements Runnable {
 				g.fillRect(xo, yo, tileSize-1, tileSize-1);
 			}
 		}
-		*/
 		player.draw(g2);
 
 		g2.dispose();
