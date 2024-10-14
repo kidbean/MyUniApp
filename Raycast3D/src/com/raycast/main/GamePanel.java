@@ -11,8 +11,6 @@ import com.raycast.entity.Player;
 import com.raycast.map.MapLoader;
 
 public class GamePanel extends JPanel implements Runnable {
-	
-	MapLoader mapLoad = new MapLoader();
 
 	final int originalTileSize = 32;
 	final int scale = 2;
@@ -25,8 +23,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public long drawCount;
 
 	public KeyHandler kh = new KeyHandler(this);
-
 	public Player player = new Player(this, kh);
+	public MapLoader map = new MapLoader(player);
+	
 
 	Thread gameThread;
 
@@ -41,10 +40,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void setUpGame() {
 
-		Player.px = 300;
-		Player.py = 300;
-		Player.pdx = Math.cos(Player.pa)*5;
-		Player.pdy = Math.sin(Player.pa)*5;
+		player.px = 300;
+		player.py = 300;
+		player.pdx = Math.cos(player.pa)*5;
+		player.pdy = Math.sin(player.pa)*5;
 
 	}
 
@@ -99,9 +98,9 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		int x, y, xo, yo;
-		for (y = 0; y < mapLoad.mapY; y++) {
-			for (x = 0; x < mapLoad.mapX; x++) {
-				if(mapLoad.map[y*mapLoad.mapX+x] >= 1) { 
+		for (y = 0; y < map.mapY; y++) {
+			for (x = 0; x < map.mapX; x++) {
+				if(map.map[y*map.mapX+x] >= 1) { 
 					g.setColor(Color.white);
 				}else {
 					g.setColor(Color.black);
@@ -110,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
 				g.fillRect(xo, yo, tileSize-1, tileSize-1);
 			}
 		}
+		map.draw(g2);
 		player.draw(g2);
 
 		g2.dispose();
