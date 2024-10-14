@@ -9,7 +9,7 @@ import com.raycast.main.KeyHandler;
 import com.raycast.map.MapLoader;
 import com.raycast.map.Textures;
 
-public class Player{
+public class Player extends Entity{
 	
 	KeyHandler kh;
 	GamePanel gp;
@@ -21,13 +21,14 @@ public class Player{
 	public double pdx, pdy, pa;
 	public String direction;
 	public int playerSize = 8;
-	
 	public int lineXScale = 17;
 	
 	public Player(GamePanel gp, KeyHandler kh) {
 		super();
 		this.kh = kh;
-		//this.mapLoad = mapLoad;
+		//health, strength, dex, con, int, defence
+		setStats(10, 10, 10, 10, 10, 10);
+		System.out.println("Health: " + health + "\n" + "Defence: " + defence);
 	}
 	
 	public void update() {
@@ -78,12 +79,6 @@ public class Player{
 			pdy = Math.sin(pa)*5;
 		}
 	}
-	
-	public double dist(double ax, double ay, double bx, double by, double ang) {
-		
-		return (Math.sqrt((bx-ax) * ( bx-ax) + (by-ay) * (by-ay)));
-	}
-	
 	
 	public void draw(Graphics2D g2) {
 

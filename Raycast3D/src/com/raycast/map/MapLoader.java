@@ -6,11 +6,12 @@ import java.awt.Graphics2D;
 
 import com.raycast.entity.Player;
 import com.raycast.main.KeyHandler;
+import com.raycast.utils.Utils;
 
 public class MapLoader {
 	
 	Textures tex = new Textures();
-	//Player p = new Player(null, null);
+	Utils utils = new Utils();
 	public KeyHandler kh = new KeyHandler(null);
 	public Player player;
 	
@@ -18,6 +19,8 @@ public class MapLoader {
 	static double p2 = pi/2;
 	static double p3 = 3*pi/2;
 	static double dr = 0.0174533;
+	
+	int texO = 0;
 	
 	public final int mapX = 8, mapY = 8;
 	public int map[] = {
@@ -42,7 +45,6 @@ public class MapLoader {
 	public void draw(Graphics2D g2) {
 		
 		//Draw Rays for player
-		
 		int r, mx, my, mp, dof;
 		double rx = 0, ry = 0, ra, xo = 0, yo = 0, distT = 0;
 		ra = player.pa - dr*30;
@@ -76,12 +78,11 @@ public class MapLoader {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
 				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] == 1) {
+				if(mp > 0 && mp<mapX*mapY && map[mp] > 0) {
 					hx = rx;
 					hy = ry;
-					disH = player.dist(player.px, player.py, hx, hy, ra);
+					disH = utils.dist(player.px, player.py, hx, hy, ra);
 					dof = 8; //hit wall
-					
 				}else {
 					rx += xo;
 					ry += yo;
@@ -109,12 +110,11 @@ public class MapLoader {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
 				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] == 1) {
+				if(mp > 0 && mp<mapX*mapY && map[mp] > 0) {
 					vx = rx;
 					vy = ry;
-					disV = player.dist(player.px, player.py, vx, vy, ra);
+					disV = utils.dist(player.px, player.py, vx, vy, ra);
 					dof = 8; //hit wall
-					
 				}else {
 					rx += xo;
 					ry += yo;
@@ -159,8 +159,9 @@ public class MapLoader {
 				lineH = 320;
 			}
 			
-			float lineO = 160-lineH/2;
-			float ty = ty_off*ty_step;
+
+			float lineO = 220-lineH/2;
+			float ty = ty_off*ty_step + texO;
 			float tx;
 			if(shade == 1) {
 				 tx = (int)(rx/2.0) % 32;
@@ -173,7 +174,6 @@ public class MapLoader {
 					tx = 31-tx;
 				}
 			}
-
 			
 			for(int y = 0; y < lineH; y++) {
 				float c = tex.AllTextures[(int) (ty) * 32 + (int)(tx) ] * shade;
@@ -190,7 +190,6 @@ public class MapLoader {
 			if(ra > 2*pi) {
 				ra -= 2*pi;
 			}
-		}
-		
+		}		
 	}
 }
