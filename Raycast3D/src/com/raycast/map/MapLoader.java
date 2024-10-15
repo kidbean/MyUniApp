@@ -161,7 +161,7 @@ public class MapLoader {
 			
 
 			float lineO = 220-lineH/2;
-			float ty = ty_off*ty_step + texO;
+			float ty = ty_off*ty_step;
 			float tx;
 			if(shade == 1) {
 				 tx = (int)(rx/2.0) % 32;
