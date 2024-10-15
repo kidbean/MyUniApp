@@ -9,6 +9,7 @@ public class Entity {
 	
 	int level;
 	
+	String race;
 	String vocation;
 	String name;
 	

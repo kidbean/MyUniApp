@@ -20,19 +20,38 @@ public class MapLoader {
 	static double p3 = 3*pi/2;
 	static double dr = 0.0174533;
 	
-	int texO = 0;
-	
 	public final int mapX = 8, mapY = 8;
-	public int map[] = {
-			1, 1, 1, 1, 1, 1, 1, 1, 
-			1, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 1, 
-			1, 0, 0, 0, 0, 0, 0, 1,  
-			1, 1, 1, 1, 1, 1, 1, 1
+	public int mapW[] = {
+			2, 2, 2, 2, 3, 2, 2, 2,
+			2, 0, 0, 2, 0, 0, 0, 2, 
+			3, 0, 0, 2, 0, 0, 0, 3,
+			2, 2, 4, 2, 0, 0, 0, 2,
+			2, 0, 0, 0, 0, 0, 0, 3,
+			3, 0, 0, 0, 0, 0, 0, 2,
+			2, 0, 0, 0, 0, 0, 0, 2,
+			2, 2, 2, 2, 2, 2, 2, 2
 	};
+	public int mapF[] = {
+			0, 0, 0, 0, 0, 0, 0, 0, 
+			0, 1, 1, 0, 1, 1, 1, 0,
+			0, 1, 1, 0, 1, 1, 1, 0,
+			0, 0, 0, 0, 1, 1, 1, 0, 
+			0, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 1, 1, 1, 1, 1, 0, 
+			0, 1, 1, 1, 1, 1, 1, 0,  
+			0, 0, 0, 0, 0, 0, 0, 0
+	};
+	public int mapR[] = {
+			0, 0, 0, 0, 0, 0, 0, 0, 
+			0, 1, 1, 0, 1, 1, 1, 0,
+			0, 1, 1, 0, 1, 1, 1, 0,
+			0, 0, 0, 0, 1, 1, 1, 0, 
+			0, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 1, 1, 1, 1, 1, 0, 
+			0, 1, 1, 1, 1, 1, 1, 0,  
+			0, 0, 0, 0, 0, 0, 0, 0
+	};
+	
 	
 	public MapLoader(Player player) {
 		this.player = player;
@@ -43,6 +62,8 @@ public class MapLoader {
 	}
 	
 	public void draw(Graphics2D g2) {
+		
+		int hmt = 0, vmt = 0;
 		
 		//Draw Rays for player
 		int r, mx, my, mp, dof;
@@ -78,7 +99,8 @@ public class MapLoader {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
 				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] > 0) {
+				if(mp > 0 && mp<mapX*mapY && mapW[mp] > 0) {
+					hmt = mapW[mp] - 1;
 					hx = rx;
 					hy = ry;
 					disH = utils.dist(player.px, player.py, hx, hy, ra);
@@ -89,7 +111,7 @@ public class MapLoader {
 					dof++;
 				}
 			}
-			//Check Vertical Lines
+			//Check vertical Lines
 			double disV = 1000000, vx = player.px, vy = player.py;
 			dof = 0;
 			double nTan = -Math.tan(ra);
@@ -110,7 +132,8 @@ public class MapLoader {
 				mx = (int) (rx/64);
 				my = (int) (ry/64);
 				mp = my*mapX+mx;
-				if(mp > 0 && mp<mapX*mapY && map[mp] > 0) {
+				if(mp > 0 && mp<mapX*mapY && mapW[mp] > 0) {
+					vmt = mapW[mp] - 1;
 					vx = rx;
 					vy = ry;
 					disV = utils.dist(player.px, player.py, vx, vy, ra);
@@ -125,6 +148,7 @@ public class MapLoader {
 			float shade = 1.0f;
 			
 			if(disV<disH) {
+				hmt = vmt;
 				rx = vx; 
 				ry = vy;
 				distT = disV;
@@ -143,7 +167,7 @@ public class MapLoader {
 			
 			
 			//Draw 3D Walls
-			float ca =(float) (player.pa-ra);
+			float ca = (float) (player.pa-ra);
 			if(ca < 0) {
 				ca += 2*pi;
 			}
@@ -160,8 +184,8 @@ public class MapLoader {
 			}
 			
 
-			float lineO = 220-lineH/2;
-			float ty = ty_off*ty_step;
+			float lineO = 220 - lineH/2;
+			float ty = ty_off*ty_step + hmt * 32;
 			float tx;
 			if(shade == 1) {
 				 tx = (int)(rx/2.0) % 32;
@@ -176,10 +200,10 @@ public class MapLoader {
 			}
 			
 			for(int y = 0; y < lineH; y++) {
-				float c = tex.AllTextures[(int) (ty) * 32 + (int)(tx) ] * shade;
+				float c = (tex.AllTextures[(int) (ty) * 32 + (int)(tx) ] * shade);
 				g2.setStroke(new BasicStroke(8));
 				g2.setColor(new Color(c, c, c));
-				g2.drawLine((int)r*8 + 530, (int)lineO + y, (int)r*8 + 530, y + (int)lineO);
+				g2.drawLine((int)r*8 + 530, (int)lineO + y, (int)r*8 + 530, (int)lineO + y);
 				ty += ty_step;
 			}
 

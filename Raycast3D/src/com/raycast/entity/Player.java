@@ -1,13 +1,13 @@
 package com.raycast.entity;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import com.raycast.main.GamePanel;
 import com.raycast.main.KeyHandler;
 import com.raycast.map.MapLoader;
-import com.raycast.map.Textures;
+import com.raycast.utils.Utils;
 
 public class Player extends Entity{
 	
@@ -28,7 +28,6 @@ public class Player extends Entity{
 		this.kh = kh;
 		//health, strength, dex, con, int, defence
 		setStats(10, 10, 10, 10, 10, 10);
-		System.out.println("Health: " + health + "\n" + "Defence: " + defence);
 	}
 	
 	public void update() {
@@ -51,18 +50,18 @@ public class Player extends Entity{
 	
 		//movement
 		if(kh.up) {
-			if(mapLoad.map[ipy*mapLoad.mapX + ipx_add_xo] == 0) {
+			if(mapLoad.mapW[ipy*mapLoad.mapX + ipx_add_xo] == 0) {
 				px += pdx;
 			}
-			if(mapLoad.map[ipy_add_yo*mapLoad.mapX + ipx] == 0) {
+			if(mapLoad.mapW[ipy_add_yo*mapLoad.mapX + ipx] == 0) {
 				py += pdy;
 			}
 		}
 		if(kh.down) {
-			if(mapLoad.map[ipy*mapLoad.mapX + ipx_sub_xo] == 0) {
+			if(mapLoad.mapW[ipy*mapLoad.mapX + ipx_sub_xo] == 0) {
 				px -= pdx;
 			}
-			if(mapLoad.map[ipy_sub_yo*mapLoad.mapX + ipx] == 0) {
+			if(mapLoad.mapW[ipy_sub_yo*mapLoad.mapX + ipx] == 0) {
 				py -= pdy;
 			}
 		}

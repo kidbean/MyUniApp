@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.raycast.entity.Player;
 import com.raycast.map.MapLoader;
+import com.raycast.ui.Ui;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public KeyHandler kh = new KeyHandler(this);
 	public Player player = new Player(this, kh);
 	public MapLoader map = new MapLoader(player);
+	public Ui ui = new Ui();
 	
 
 	Thread gameThread;
@@ -91,6 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 
 		player.update();
+		ui.update();
 
 	}
 
@@ -100,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
 		int x, y, xo, yo;
 		for (y = 0; y < map.mapY; y++) {
 			for (x = 0; x < map.mapX; x++) {
-				if(map.map[y*map.mapX+x] >= 1) { 
+				if(map.mapW[y*map.mapX+x] >= 1) { 
 					g.setColor(Color.white);
 				}else {
 					g.setColor(Color.black);
@@ -109,8 +112,10 @@ public class GamePanel extends JPanel implements Runnable {
 				g.fillRect(xo, yo, tileSize-1, tileSize-1);
 			}
 		}
+		
 		map.draw(g2);
 		player.draw(g2);
+		ui.draw(g2);
 
 		g2.dispose();
 	}
