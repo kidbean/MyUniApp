@@ -184,7 +184,7 @@ public class MapLoader {
 			}
 			
 
-			float lineO = 220 - lineH/2;
+			float lineO = 180 - lineH/2;
 			float ty = ty_off*ty_step + hmt * 32;
 			float tx;
 			if(shade == 1) {

@@ -18,7 +18,7 @@ public class Utils {
 	
 	public BufferedImage imageLoader(String filePath) {
 		try {
-			image = ImageIO.read(new File(filePath));
+			image = ImageIO.read(new File("src\\res\\" + filePath + ".png"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

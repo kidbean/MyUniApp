@@ -112,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
 				g.fillRect(xo, yo, tileSize-1, tileSize-1);
 			}
 		}
+
 		
 		map.draw(g2);
 		player.draw(g2);
