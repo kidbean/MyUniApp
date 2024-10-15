@@ -26,8 +26,9 @@ public class Player extends Entity{
 	public Player(GamePanel gp, KeyHandler kh) {
 		super();
 		this.kh = kh;
-		//health, strength, dex, con, int, defence
-		setStats(10, 10, 10, 10, 10, 10);
+		setName("Adventurer");
+		setRaceVocation("Human", "Warrior");
+		System.out.println(this.name + "\n" + this.race + " | " + this.vocation);
 	}
 	
 	public void update() {

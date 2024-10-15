@@ -18,7 +18,8 @@ public class Entity {
 		speed = s;
 	}
 	
-	public void setVocation(String v) {
+	public void setRaceVocation(String r, String v) {
+		race = r;
 		vocation = v;
 	}
 
